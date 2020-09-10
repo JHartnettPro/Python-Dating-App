@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form-block">
+        <div class="form-block__content">
+            <div>
+
+            <h1>Welcome to COVID Match.com</h1>
+            <h4>"You can't spell "Virus" without U and I"</h4>
+            <h2>Please sign in</h2>
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+
+            <div class = "sign_in">
+            <form action='/login' method='POST'>
+                {% csrf_token %}
+                Email: <input type='email' name='email'><br><br>
+                Password: <input type='password' name='password'><br><br>
+                <button type='submit'>Sign in</button>
+            </form>
+            </div><br><br>
+            <a id="register_link" href='/to_register'>Don't have an account? Register</a>
+
+        </div>
+    </div>
+</body>
+
+</html>

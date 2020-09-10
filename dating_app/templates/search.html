@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+
+
+<body>
+    
+    <div class="form-block">
+        <div class="form-block__content">
+            <h3>"CAN I SHIP YOU A DRINK"</h3>
+            {% for user in result1 %}
+            <div class = "img_container">
+                <img src='{{user.photo.url}}'>
+                </div>
+            <p><a href='/users/show/{{user.id}}'>{{user.nickname}}</a></p>
+            {% endfor %}
+            {% for user in result2 %}
+            <div class = "img_container">
+                <img src='{{user.photo.url}}'>
+                </div>
+            <p><a href='/users/show/{{user.id}}'>{{user.nickname}} {{user.age}}</a></p>
+            {% endfor %}
+        </div>
+    </div>
+    
+</body>
+
+</html>

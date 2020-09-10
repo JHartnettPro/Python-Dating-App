@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class = "dash-block">
+        <div class = "dash-block__content">
+    <a href='/logout'>Log out</a>
+    <h3>Welcome {{request.session.user_nickname}}!</h3>
+    <a href='/users/update/{{current_user.id}}'>Edit Profile</a>
+    <h1>Manage Users</h1>
+
+    <!-- {% if current_user.admin == True %}
+    <a href='/users/new'>Add new</a>
+    {% endif %} -->
+
+
+    <br>
+    <table>
+        <thead>
+
+            <th></th>
+            <th>Nickname</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Joined</th>
+            <th>Age</th>
+            <th>Power level</th>
+            {% if current_user.admin == True %}
+            <th>Actions</th>
+            {% endif %}
+
+        </thead>
+        {% for user in all_users %}
+        <tr>
+            <td><img src='{{user.photo.url}}'></td>
+            <td><a href='/users/show/{{user.id}}'>{{user.nickname}}</a></td>
+            <td>{{user.email}}</td>
+
+            {% if user.gender == False %}
+            <td>Male</td>
+            {% else %}
+            <td>Female</td>
+            {% endif %}
+            <td>{{user.created_at}}</td>
+            <td>{{user.age}}</td>
+            {% if user.admin == True %}
+            <td>admin</td>
+            {% else %}
+            <td>normal</td>
+            {% endif %}
+
+            {% if current_user.admin == True %}
+            <td><a href='/users/update/{{user.id}}'>edit</a> / <a class='delete_user'
+                    href='/users/remove/{{user.id}}'>remove</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>You liked these users:</h3>
+    
+    <ulul style="list-style-type:none">
+        {% for user in current_user.likes.all %}
+        <li>{{user.nickname}}  <a href='/users/match/{{user.id}}'>Check if you match:</a></li>
+        {% endfor %}
+    </ul>
+    
+
+
+    <fieldset>
+        <legend>Search users</legend>
+        <form class="search" method="GET" action="/users/search_results">
+            {% csrf_token %}
+            <select name='search'>
+                <option value='-1'>Select one</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select><br><br>
+            <button id = "search" type="submit"> Search </button>
+        </form>
+        <form method="GET" action="/users/result_page">
+            <div class="slidecontainer">
+                <p>Age: <span id="demo"></span></p>
+                <input type="range" min="18" max="50" value="50" name="age" class="slider" id="myRange">
+            </div><br>
+            <button id = "search"type="submit"> Search </button>
+        </form>
+    </fieldset>
+    
+    <script>
+        const links = document.querySelectorAll('.delete_user');
+
+        links.forEach((link) => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                const link = event.target.href;
+
+                var r = confirm("Are you sure you want to remove this user?");
+
+                if (r == true) {
+                    window.location.href = link;
+                }
+            });
+        })
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+        }
+    </script>
+    </div>
+    </div>
+
+</body>
+
+</html>

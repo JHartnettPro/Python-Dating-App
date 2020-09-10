@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+</head>
+
+<body>
+    <div class="nav-block">
+        <div class="nav-block_content">
+            <div class="access-block_action">
+                <div class="access-block_action-desktop">
+                    <div class="app-entry-points">
+                        <div class="app-entry-points_action">
+                            <a class="button button-logout" href='/logout'>log out</a>
+                        </div>
+                        <div class="app-entry-points_action">
+                            <a class="button button-dahsboard" href='/dashboard'>Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-block__inner">
+            <div class="profile-block__content">
+
+                <a id = "emoji" href='/users/likes/{{user.id}}'>&#128077</a>  | <a id = "emoji" href='/users/disliked/{{user.id}}'>&#128078</a>
+
+
+
+
+                <h1>{{user.first_name}} {{user.last_name}}</h1>
+                <h4>Joined on: {{user.created_at}}</h4>
+
+                <div class = "img_container">
+                <img src='{{user.photo.url}}'>
+                </div>
+                
+                <h4>{{user.nickname}}</h4>
+                <h4>Description: {{user.description}}</h4>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

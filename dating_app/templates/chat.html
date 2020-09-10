@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+
+<body>
+<div class = "chat">
+    <div class = "nav-block_content">
+    <a class="button button-dahsboard" href='/dashboard'>Dashboard</a>
+    </div>
+    <div class="profile-block__inner">
+        <div class="chat-block__content">
+            <h1>Looks like {{user.first_name}} liked you back</h1>
+            <h3>Leave a message for {{user.first_name}}</h3>
+            {% for message in messages %}
+            <p style=color:red;>{{message}}</p>
+            {% endfor %}
+            <form action='/users/matched/{{user.id}}' method='POST'>
+                {% csrf_token %}
+                <textarea style='background-color: #a9d2d3;' name='message' rows="5" cols="50"></textarea><br>
+                <button type='submit' id='post_message'>Post</button>
+            </form>
+            
+            {% for message in all_messages %}
+            {% if message.user.id == current_user.id or message.user.id == user.id %}
+            <h3><a href='/users/show/{{message.user.id}}'> {{message.user.first_name}} {{message.user.last_name}}</a> said:
+                {{message.created_at}}</h3>
+            <p style=font-size:larger>{{message.message}}
+                {% if message.user.id == request.session.user_id %}
+                <a href='/users/show/{{user.id}}/{{message.id}}/delete_message'>Delete</a>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
